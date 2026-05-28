@@ -298,5 +298,204 @@
       >
       <a href="tel:0506928700" aria-label="התקשרות טלפונית">שיחה</a>
     </nav>
+
+    <button
+      class="accessibility-widget-toggle"
+      type="button"
+      aria-label="פתיחת כלי נגישות"
+      aria-expanded="false"
+      aria-controls="accessibility-widget-panel"
+    >
+      <span aria-hidden="true">♿</span>
+    </button>
+
+    <div
+      class="accessibility-widget-panel"
+      id="accessibility-widget-panel"
+      role="dialog"
+      aria-label="כלי נגישות"
+      aria-hidden="true"
+      dir="rtl"
+    >
+      <div class="accessibility-widget-header">
+        <strong>סיוע בנגישות</strong>
+        <button type="button" class="accessibility-widget-close" aria-label="סגירת כלי נגישות">×</button>
+      </div>
+
+      <div class="accessibility-widget-grid">
+        <button type="button" data-a11y-action="increase-text">הגדלת גופן</button>
+        <button type="button" data-a11y-action="decrease-text">הקטנת גופן</button>
+        <button type="button" data-a11y-action="reset-text">איפוס גופן</button>
+        <button type="button" data-a11y-action="contrast">ניגודיות גבוהה</button>
+        <button type="button" data-a11y-action="grayscale">גווני אפור</button>
+        <button type="button" data-a11y-action="highlight-links">הדגשת קישורים</button>
+        <button type="button" data-a11y-action="reduce-motion">עצירת אנימציות</button>
+        <button type="button" data-a11y-action="reset-all">איפוס נגישות</button>
+      </div>
+
+      <a class="accessibility-widget-link" href="accessibility.html">מעבר להצהרת נגישות</a>
+      <p class="accessibility-widget-note">כלי זה הוא כלי עזר בלבד ואינו מחליף הנגשה תקינה של האתר.</p>
+    </div>
+
+    <script>
+      (function () {
+        var storageKey = "rbs_a11y_settings_v1";
+        var body = document.body;
+        var toggleBtn = document.querySelector(".accessibility-widget-toggle");
+        var panel = document.getElementById("accessibility-widget-panel");
+        var closeBtn = document.querySelector(".accessibility-widget-close");
+        var actionButtons = document.querySelectorAll("[data-a11y-action]");
+        if (!body || !toggleBtn || !panel || !closeBtn || !actionButtons.length) return;
+
+        var textOrder = ["small", "normal", "large", "larger"];
+        var textClassMap = {
+          small: "a11y-text-small",
+          large: "a11y-text-large",
+          larger: "a11y-text-larger",
+        };
+
+        var state = {
+          textSize: "normal",
+          contrast: false,
+          grayscale: false,
+          highlightLinks: false,
+          reduceMotion: false,
+        };
+
+        function loadState() {
+          try {
+            var raw = localStorage.getItem(storageKey);
+            if (!raw) return;
+            var parsed = JSON.parse(raw);
+            if (parsed && typeof parsed === "object") {
+              state = Object.assign(state, parsed);
+            }
+          } catch (err) {}
+        }
+
+        function saveState() {
+          try {
+            localStorage.setItem(storageKey, JSON.stringify(state));
+          } catch (err) {}
+        }
+
+        function clearTextClasses() {
+          body.classList.remove("a11y-text-small", "a11y-text-large", "a11y-text-larger");
+        }
+
+        function applyState() {
+          clearTextClasses();
+          if (state.textSize !== "normal" && textClassMap[state.textSize]) {
+            body.classList.add(textClassMap[state.textSize]);
+          }
+          body.classList.toggle("a11y-high-contrast", !!state.contrast);
+          body.classList.toggle("a11y-grayscale", !!state.grayscale);
+          body.classList.toggle("a11y-highlight-links", !!state.highlightLinks);
+          body.classList.toggle("a11y-reduce-motion", !!state.reduceMotion);
+        }
+
+        function openPanel() {
+          panel.classList.add("is-open");
+          panel.setAttribute("aria-hidden", "false");
+          toggleBtn.setAttribute("aria-expanded", "true");
+        }
+
+        function closePanel() {
+          panel.classList.remove("is-open");
+          panel.setAttribute("aria-hidden", "true");
+          toggleBtn.setAttribute("aria-expanded", "false");
+        }
+
+        function togglePanel() {
+          if (panel.classList.contains("is-open")) {
+            closePanel();
+          } else {
+            openPanel();
+          }
+        }
+
+        function nextTextSize(direction) {
+          var idx = textOrder.indexOf(state.textSize);
+          if (idx < 0) idx = 1;
+          if (direction === "up") {
+            idx = Math.min(idx + 1, textOrder.length - 1);
+          } else {
+            idx = Math.max(idx - 1, 0);
+          }
+          state.textSize = textOrder[idx];
+        }
+
+        function resetAll() {
+          state = {
+            textSize: "normal",
+            contrast: false,
+            grayscale: false,
+            highlightLinks: false,
+            reduceMotion: false,
+          };
+          try {
+            localStorage.removeItem(storageKey);
+          } catch (err) {}
+          applyState();
+        }
+
+        toggleBtn.addEventListener("click", togglePanel);
+        closeBtn.addEventListener("click", closePanel);
+
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "Escape" && panel.classList.contains("is-open")) {
+            closePanel();
+            toggleBtn.focus();
+          }
+        });
+
+        document.addEventListener("click", function (event) {
+          if (!panel.classList.contains("is-open")) return;
+          var clickInsidePanel = panel.contains(event.target);
+          var clickToggle = toggleBtn.contains(event.target);
+          if (!clickInsidePanel && !clickToggle) {
+            closePanel();
+          }
+        });
+
+        actionButtons.forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            var action = btn.getAttribute("data-a11y-action");
+            if (!action) return;
+            switch (action) {
+              case "increase-text":
+                nextTextSize("up");
+                break;
+              case "decrease-text":
+                nextTextSize("down");
+                break;
+              case "reset-text":
+                state.textSize = "normal";
+                break;
+              case "contrast":
+                state.contrast = !state.contrast;
+                break;
+              case "grayscale":
+                state.grayscale = !state.grayscale;
+                break;
+              case "highlight-links":
+                state.highlightLinks = !state.highlightLinks;
+                break;
+              case "reduce-motion":
+                state.reduceMotion = !state.reduceMotion;
+                break;
+              case "reset-all":
+                resetAll();
+                return;
+            }
+            applyState();
+            saveState();
+          });
+        });
+
+        loadState();
+        applyState();
+      })();
+    </script>
   </body>
 </html>

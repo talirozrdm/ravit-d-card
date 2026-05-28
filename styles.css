@@ -26,6 +26,7 @@ body {
 
 body {
   font-family: "Assistant", "Heebo", "Rubik", sans-serif;
+  font-size: 16px;
   color: var(--text);
   line-height: 1.65;
   background:
@@ -612,6 +613,188 @@ h2 {
     animation: none !important;
     transition: none !important;
     scroll-behavior: auto !important;
+  }
+}
+
+.accessibility-widget-toggle {
+  position: fixed;
+  left: 14px;
+  bottom: 92px;
+  z-index: 1400;
+  width: 52px;
+  height: 52px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(145deg, var(--navy), #243a56);
+  color: #fff;
+  font-size: 1.45rem;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(16, 29, 46, 0.28);
+}
+
+.accessibility-widget-panel {
+  position: fixed;
+  left: 14px;
+  bottom: 156px;
+  z-index: 1500;
+  width: min(360px, calc(100vw - 28px));
+  background: linear-gradient(170deg, #fff, #fbf8f1);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 16px 40px rgba(16, 29, 46, 0.22);
+  padding: 0.85rem;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.accessibility-widget-panel.is-open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.accessibility-widget-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.65rem;
+  color: var(--navy);
+}
+
+.accessibility-widget-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--navy);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.accessibility-widget-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.accessibility-widget-grid button {
+  min-height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--navy);
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.accessibility-widget-link {
+  display: inline-flex;
+  margin-top: 0.8rem;
+  font-weight: 700;
+}
+
+.accessibility-widget-note {
+  margin: 0.45rem 0 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.accessibility-widget-toggle:focus-visible,
+.accessibility-widget-close:focus-visible,
+.accessibility-widget-grid button:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
+body.a11y-text-small {
+  font-size: 15px;
+}
+
+body.a11y-text-large {
+  font-size: 18px;
+}
+
+body.a11y-text-larger {
+  font-size: 20px;
+}
+
+body.a11y-high-contrast {
+  background: #000 !important;
+  color: #fff !important;
+}
+
+body.a11y-high-contrast .hero-card,
+body.a11y-high-contrast .card,
+body.a11y-high-contrast .chip,
+body.a11y-high-contrast .why-item,
+body.a11y-high-contrast .section-contrast,
+body.a11y-high-contrast .creator-footer,
+body.a11y-high-contrast .accessibility-widget-panel {
+  background: #000 !important;
+  border-color: #fff !important;
+  color: #fff !important;
+  box-shadow: none !important;
+}
+
+body.a11y-high-contrast h1,
+body.a11y-high-contrast h2,
+body.a11y-high-contrast h3,
+body.a11y-high-contrast p,
+body.a11y-high-contrast li,
+body.a11y-high-contrast span,
+body.a11y-high-contrast a {
+  color: #fff !important;
+}
+
+body.a11y-high-contrast .btn,
+body.a11y-high-contrast .social-link,
+body.a11y-high-contrast .accessibility-widget-grid button,
+body.a11y-high-contrast .accessibility-widget-close {
+  background: #111 !important;
+  color: #fff !important;
+  border-color: #fff !important;
+}
+
+body.a11y-grayscale {
+  filter: grayscale(1);
+}
+
+body.a11y-highlight-links a {
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px;
+  outline: 2px dashed rgba(176, 138, 50, 0.55);
+  outline-offset: 2px;
+}
+
+body.a11y-reduce-motion *,
+body.a11y-reduce-motion *::before,
+body.a11y-reduce-motion *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
+@media (max-width: 980px) {
+  .accessibility-widget-toggle {
+    bottom: 98px;
+  }
+
+  .accessibility-widget-panel {
+    bottom: 162px;
+  }
+}
+
+@media (min-width: 981px) {
+  .accessibility-widget-toggle {
+    bottom: 24px;
+  }
+
+  .accessibility-widget-panel {
+    bottom: 88px;
   }
 }
 
