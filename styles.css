@@ -202,6 +202,27 @@ h2 {
   color: var(--muted);
 }
 
+.fit-item,
+.why-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.fit-icon,
+.why-icon {
+  color: var(--gold);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-top: 0.12rem;
+  flex: 0 0 auto;
+}
+
+.why-item {
+  color: var(--navy);
+  font-weight: 600;
+}
+
 .card {
   transition: transform 220ms ease;
 }
@@ -317,7 +338,7 @@ h2 {
   color: #fff;
   border-color: #25d366;
   box-shadow: 0 10px 24px rgba(37, 211, 102, 0.34);
-  flex: 2 1 260px;
+  flex: 2 1 280px;
 }
 
 .btn-whatsapp:hover {
@@ -329,7 +350,7 @@ h2 {
   color: #142033;
   border: 1px solid #c8a95b;
   box-shadow: 0 8px 18px rgba(16, 29, 46, 0.18);
-  flex: 1 1 180px;
+  flex: 1 1 190px;
 }
 
 .btn-email {
