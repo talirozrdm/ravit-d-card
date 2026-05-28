@@ -7,7 +7,7 @@
   --gold: #b08a32;
   --gold-light: #d7be73;
   --text: #101828;
-  --muted: #667085;
+  --muted: #475467;
   --border: #e4d8c3;
   --shadow: 0 12px 34px rgba(16, 29, 46, 0.09);
 }
@@ -50,6 +50,12 @@ a:focus-visible,
 button:focus-visible {
   outline: 3px solid var(--gold);
   outline-offset: 2px;
+}
+
+.btn:focus-visible,
+.social-link:focus-visible,
+.quick-actions a:focus-visible {
+  box-shadow: 0 0 0 4px rgba(176, 138, 50, 0.28);
 }
 
 .skip-link {
@@ -137,7 +143,7 @@ button:focus-visible {
 .eyebrow {
   margin: 0;
   color: var(--gold);
-  font-size: 0.86rem;
+  font-size: 0.92rem;
   font-weight: 700;
 }
 
@@ -402,6 +408,11 @@ h2 {
 }
 
 .privacy-note {
+  color: var(--muted);
+}
+
+.accessibility-note {
+  margin-top: 0.6rem;
   color: var(--muted);
 }
 
